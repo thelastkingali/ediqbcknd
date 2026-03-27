@@ -1,574 +1,127 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="theme-color" content="#000000">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>VibeStream | Immersive Feed</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>VibeStream | Pro Feed</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        /* ────────────────────────────────────────────────────────────
-           PREMIUM DARK DESIGN SYSTEM — GLASS / SNAP FEED
-           ──────────────────────────────────────────────────────────── */
-        :root {
-            --primary: #fe2c55;
-            --primary-light: #ff6b6b;
-            --bg: #000000;
-            --card-bg: #161823;
-            --surface: #1f1f2e;
-            --text: #ffffff;
-            --text-secondary: rgba(255, 255, 255, 0.7);
-            --text-muted: rgba(255, 255, 255, 0.4);
-            --gradient-dark: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, transparent 100%);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-        }
-
-        body {
-            background: var(--bg);
-            color: var(--text);
-            height: 100dvh;
-            width: 100vw;
-            overflow: hidden;
-            position: relative;
-        }
-
-        #app {
-            width: 100%;
-            max-width: 480px;
-            height: 100%;
-            margin: 0 auto;
-            background: var(--bg);
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-        }
-
-        /* HEADER */
-        .nav-header {
-            position: fixed;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 480px;
-            height: 60px;
-            background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, transparent 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-            backdrop-filter: blur(16px);
-            pointer-events: none;
-        }
-        .nav-tabs {
-            display: flex;
-            gap: 40px;
-            background: rgba(0,0,0,0.4);
-            padding: 8px 20px;
-            border-radius: 50px;
-            backdrop-filter: blur(12px);
-            pointer-events: auto;
-        }
-        .nav-tab {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            cursor: pointer;
-            position: relative;
-            padding: 6px 0;
-            transition: all 0.2s ease;
-        }
-        .nav-tab.active {
-            color: white;
-            font-weight: 700;
-            font-size: 17px;
-        }
-        .nav-tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: -6px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 28px;
-            height: 3px;
-            background: var(--primary);
-            border-radius: 4px;
-            box-shadow: 0 0 6px var(--primary);
-        }
-
-        /* VIEW CONTAINERS */
-        .view {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-            transition: opacity 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1), visibility 0s linear 0.35s;
-            display: flex;
-            flex-direction: column;
-            z-index: 1;
-            padding-top: 60px;
-            padding-bottom: 75px;
-        }
-        .view.active {
-            opacity: 1;
-            visibility: visible;
-            pointer-events: all;
-            transition: opacity 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1), visibility 0s linear 0s;
-            z-index: 10;
-        }
-
-        /* CUSTOM FEED */
-        .feed-container {
-            flex: 1;
-            overflow-y: scroll;
-            scroll-snap-type: y mandatory;
-            scroll-behavior: smooth;
-            scrollbar-width: none;
-            -webkit-overflow-scrolling: touch;
-            height: 100%;
-        }
-        .feed-container::-webkit-scrollbar { display: none; }
+        :root { --primary: #fe2c55; --bg: #000; --card: #161823; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        body { background: var(--bg); color: #fff; height: 100dvh; overflow: hidden; }
         
-        .feed-card {
-            width: 100%;
-            height: 100vh;
-            scroll-snap-align: start;
-            position: relative;
-            background: var(--card-bg);
-            overflow: hidden;
-            display: flex;
+        /* FEED SYSTEM */
+        #feedContainer { 
+            height: 100%; overflow-y: scroll; scroll-snap-type: y mandatory; 
+            scrollbar-width: none; -webkit-overflow-scrolling: touch;
         }
-        .card-media {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            position: absolute;
-            inset: 0;
-            background-color: #0d0e15; /* Fallback while loading */
+        #feedContainer::-webkit-scrollbar { display: none; }
+        
+        .card { 
+            width: 100%; height: 100vh; scroll-snap-align: start; 
+            position: relative; display: flex; align-items: center; justify-content: center;
+            background: #0d0e15;
         }
-        .card-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, transparent 40%, transparent 100%);
-            pointer-events: none;
-        }
+        .media { width: 100%; height: 100%; object-fit: cover; position: absolute; }
 
-        /* SIDE ACTIONS */
-        .side-actions {
-            position: absolute;
-            right: 12px;
-            bottom: 110px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            z-index: 30;
-        }
-        .action-btn {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            transition: transform 0.15s ease;
-        }
-        .action-btn:active { transform: scale(0.92); }
-        .action-icon {
-            width: 54px;
-            height: 54px;
-            background: rgba(22,24,35,0.7);
-            backdrop-filter: blur(12px);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid rgba(255,255,255,0.15);
-        }
-        .action-icon i { font-size: 24px; color: white; transition: 0.3s; }
-        .action-count { font-size: 13px; font-weight: 700; text-shadow: 0 2px 4px black; color: white; }
-
-        /* ADVANCED HTML BLOCK & LOCK UI */
-        .html-block-card {
-            background: radial-gradient(circle at center, #1a1c2a 0%, #0a0b10 100%);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
+        /* ADVANCED HTML BLOCK UI */
         .html-content {
-            width: 90%;
-            max-height: 70%;
-            background: rgba(20, 22, 35, 0.6);
-            border-radius: 28px;
-            padding: 30px 20px;
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,255,255,0.05);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            z-index: 2;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 85%; padding: 40px 20px; border-radius: 30px;
+            background: rgba(255,255,255,0.05); backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.1); text-align: center; z-index: 5;
         }
 
-        /* The Interactive Lock Overlay */
-        .interaction-lock {
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(8px);
-            z-index: 40;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease;
+        /* LOCK OVERLAY */
+        .lock-overlay {
+            position: absolute; inset: 0; background: rgba(0,0,0,0.8);
+            z-index: 10; display: flex; flex-direction: column; 
+            align-items: center; justify-content: center;
+            transition: opacity 0.5s ease; opacity: 0; pointer-events: none;
         }
-        .interaction-lock.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .lock-ring {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            border: 3px dashed var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: spinRing 10s linear infinite;
-            position: relative;
-            margin-bottom: 20px;
-            box-shadow: 0 0 30px rgba(254,44,85,0.4);
-        }
-        .lock-icon-inner {
-            position: absolute;
-            font-size: 28px;
-            color: white;
-            animation: counterSpin 10s linear infinite;
-        }
-        @keyframes spinRing { 100% { transform: rotate(360deg); } }
-        @keyframes counterSpin { 100% { transform: rotate(-360deg); } }
-
-        .lock-text {
-            font-size: 18px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            background: linear-gradient(90deg, #fff, #aaa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 30px;
-        }
-
-        /* Skip Button */
+        .lock-overlay.active { opacity: 1; pointer-events: all; }
+        
         .skip-btn {
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            border: none;
-            padding: 14px 32px;
-            border-radius: 50px;
-            color: white;
-            font-weight: 800;
-            font-size: 15px;
-            letter-spacing: 1px;
-            cursor: pointer;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            pointer-events: none;
-            box-shadow: 0 10px 20px rgba(254,44,85,0.4);
+            margin-top: 20px; padding: 12px 25px; border-radius: 50px;
+            background: var(--primary); color: #fff; border: none;
+            font-weight: bold; cursor: pointer; display: none;
         }
-        .skip-btn.show {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: all;
-        }
-        .skip-btn:active { transform: scale(0.95); }
-
-        /* Shockwave Effect */
-        .shockwave {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 4px solid var(--primary);
-            opacity: 1;
-            z-index: 50;
-            pointer-events: none;
-        }
-        .shockwave.fire {
-            animation: explode 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
-        }
-        @keyframes explode {
-            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; border-width: 10px; }
-            100% { transform: translate(-50%, -50%) scale(15); opacity: 0; border-width: 0px; }
-        }
-
-        /* BOTTOM NAV */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 480px;
-            height: 75px;
-            background: rgba(10,10,10,0.96);
-            backdrop-filter: blur(24px);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            z-index: 100;
-            padding-bottom: env(safe-area-inset-bottom, 10px);
-            border-top: 1px solid rgba(255,255,255,0.06);
-        }
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            cursor: pointer;
-            padding: 8px 24px;
-            transition: all 0.2s;
-        }
-        .nav-item i { font-size: 24px; color: var(--text-muted); }
-        .nav-item span { font-size: 11px; font-weight: 500; color: var(--text-muted); }
-        .nav-item.active i { color: var(--primary); transform: translateY(-2px); text-shadow: 0 0 8px rgba(254,44,85,0.5); }
-        .nav-item.active span { color: white; font-weight: 600; }
     </style>
 </head>
 <body>
-    <div id="app">
-        <nav class="nav-header">
-            <div class="nav-tabs">
-                <div class="nav-tab" data-tab="explore">Explore</div>
-                <div class="nav-tab active" data-tab="foryou">For You</div>
-            </div>
-        </nav>
 
-        <div id="feedView" class="view active">
-            <div class="feed-container" id="customFeedContainer"></div>
-        </div>
-
-        <div id="exploreView" class="view">
-            <div class="webview-container" style="flex:1; width:100%; background:#000;">
-                <iframe class="webview-frame" id="exploreFrame" src="https://urlebird.com/trending/" style="width:100%; height:100%; border:none;"></iframe>
-            </div>
-        </div>
-
-        <nav class="bottom-nav">
-            <div class="nav-item active" data-view="feed"><i class="fas fa-house-chimney"></i><span>Home</span></div>
-            <div class="nav-item" data-view="explore"><i class="fas fa-compass"></i><span>Explore</span></div>
-        </nav>
-    </div>
+    <div id="feedContainer"></div>
 
     <script>
-        (function(){
-            'use strict';
+        // 1. YOUR IMAGE NAMES (Change these to match your assets folder!)
+        const myImages = ['1.jpg', '2.jpg', 'the logo.jpg''sumerian sketch map.jpg','quiz.jpg','paper frame.jpg','3.jpg']; 
+        
+        // 2. YOUR HTML BLOCKS (Already included here!)
+        const myBlocks = [
+            { title: "Network Status", desc: "System analyzing data streams..." },
+            { title: "User Analytics", desc: "Compiling latest engagement metrics." }
+        ];
 
-            // ─────────────────────────────────────────────────────────
-            // ASSET MANAGEMENT & ERROR HANDLING
-            // ─────────────────────────────────────────────────────────
-            // Instead of API, define your image names here. 
-            // Put these images in an 'assets' folder next to this HTML file.
-            const localAssetsFolder = './assets/';
-            const imageFiles = [
-                '1.jpg', '2.jpg', '3.jpg', 'paper frame.jpg', 'quiz.jpg', 'sumerian sketch map.jpg' , 'the logo.jpg', 
+        const container = document.getElementById('feedContainer');
 
-            ];
+        function initFeed() {
+            // Add an image card, then a block, then an image
+            myImages.forEach((imgName, index) => {
+                // Add Image Card
+                const imgCard = document.createElement('div');
+                imgCard.className = 'card';
+                imgCard.innerHTML = `<img class="media" src="assets/${imgName}" onerror="this.src='https://via.placeholder.com/1080x1920/161823/fe2c55?text=Asset+Not+Found'">`;
+                container.appendChild(imgCard);
 
-            // Complex HTML blocks with dynamic visuals
-            const htmlBlocks = [
-                { id: "block1", html: `<div style="text-align:center; color:white;"><i class="fas fa-chart-network" style="font-size:48px; color:#fe2c55; margin-bottom:15px;"></i><h2 style="font-weight:900; letter-spacing:1px;">Analytics Overview</h2><p style="color:#aaa; font-size:14px; margin-top:10px;">Monitoring real-time engagement vectors.</p></div>` },
-                { id: "block2", html: `<div style="text-align:center;"><i class="fas fa-layer-group" style="font-size:48px; color:#25f4ee; margin-bottom:15px;"></i><h2 style="font-weight:900;">System Architecture</h2><p style="color:#aaa; font-size:14px; margin-top:10px;">Evaluating backend logic and render pipelines.</p></div>` }
-            ];
-
-            // ─────────────────────────────────────────────────────────
-            // FEED GENERATION & RANDOMIZATION
-            // ─────────────────────────────────────────────────────────
-            function shuffleArray(arr) {
-                let shuffled = [...arr];
-                for (let i = shuffled.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                // Add HTML Block every 2 images
+                if (index % 2 === 0) {
+                    const block = myBlocks[index % myBlocks.length];
+                    const blockCard = document.createElement('div');
+                    blockCard.className = 'card html-block';
+                    blockCard.innerHTML = `
+                        <div class="html-content">
+                            <i class="fas fa-microchip" style="font-size:40px; color:var(--primary)"></i>
+                            <h2 style="margin:15px 0">${block.title}</h2>
+                            <p style="color:#aaa">${block.desc}</p>
+                        </div>
+                        <div class="lock-overlay">
+                            <div class="lock-icon"><i class="fas fa-lock" style="font-size:30px"></i></div>
+                            <p style="margin-top:10px">PLEASE WAIT...</p>
+                            <button class="skip-btn">UNLOCKED - TAP TO SKIP</button>
+                        </div>
+                    `;
+                    container.appendChild(blockCard);
                 }
-                return shuffled;
-            }
+            });
+            setupIntersections();
+        }
 
-            function buildFeedItems() {
-                const randomizedImages = shuffleArray(imageFiles);
-                let feedItems = [];
-                let blockCounter = 0;
-
-                for (let i = 0; i < randomizedImages.length; i++) {
-                    feedItems.push({ type: 'image', file: randomizedImages[i] });
-                    // Inject HTML block every 3 images for a dynamic rhythm
-                    if ((i + 1) % 3 === 0 && i !== randomizedImages.length - 1) {
-                        const blockIdx = blockCounter % htmlBlocks.length;
-                        feedItems.push({ type: 'html', data: htmlBlocks[blockIdx] });
-                        blockCounter++;
+        function setupIntersections() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && entry.intersectionRatio > 0.8) {
+                        const lock = entry.target.querySelector('.lock-overlay');
+                        if (lock && !entry.target.dataset.viewed) {
+                            lock.classList.add('active');
+                            container.style.overflowY = 'hidden'; // Lock Scroll
+                            
+                            setTimeout(() => {
+                                const btn = lock.querySelector('.skip-btn');
+                                btn.style.display = 'block';
+                                btn.onclick = () => {
+                                    lock.classList.remove('active');
+                                    container.style.overflowY = 'scroll'; // Unlock Scroll
+                                    entry.target.dataset.viewed = "true";
+                                };
+                            }, 5000); // 5 Second wait
+                        }
                     }
-                }
-                return feedItems;
-            }
+                });
+            }, { threshold: 0.8 });
 
-            function generateCard(item) {
-                const cardDiv = document.createElement('div');
-                cardDiv.className = 'feed-card';
+            document.querySelectorAll('.html-block').forEach(b => observer.observe(b));
+        }
 
-                if (item.type === 'image') {
-                    const imagePath = localAssetsFolder + item.file;
-                    const randomLikes = Math.floor(Math.random() * 50000) + 1000;
-                    
-                    // ONERROR TRICK: If the image is missing from the folder, the card deletes itself cleanly. No broken UI.
-                    cardDiv.innerHTML = `
-                        <img class="card-media" src="${imagePath}" alt="Feed Media" 
-                             onerror="this.closest('.feed-card').remove(); console.warn('Missing asset: ${item.file} bypassed.');">
-                        <div class="card-overlay"></div>
-                        <div class="side-actions">
-                            <div class="action-btn like-btn">
-                                <div class="action-icon"><i class="fas fa-heart"></i></div>
-                                <span class="action-count">${(randomLikes/1000).toFixed(1)}K</span>
-                            </div>
-                        </div>
-                    `;
-
-                    // Like interaction
-                    const likeBtn = cardDiv.querySelector('.like-btn');
-                    likeBtn.addEventListener('click', (e) => {
-                        const icon = likeBtn.querySelector('i');
-                        const iconContainer = likeBtn.querySelector('.action-icon');
-                        if (likeBtn.classList.toggle('liked')) {
-                            icon.style.color = '#fe2c55';
-                            iconContainer.style.borderColor = '#fe2c55';
-                            iconContainer.style.boxShadow = '0 0 15px rgba(254,44,85,0.4)';
-                        } else {
-                            icon.style.color = 'white';
-                            iconContainer.style.borderColor = 'rgba(255,255,255,0.15)';
-                            iconContainer.style.boxShadow = 'none';
-                        }
-                    });
-
-                } else {
-                    // HTML Block with Advanced Locking UI
-                    cardDiv.classList.add('html-block-card');
-                    cardDiv.innerHTML = `
-                        <div class="html-content">${item.data.html}</div>
-                        <div class="interaction-lock">
-                            <div class="lock-ring"><i class="fas fa-lock lock-icon-inner"></i></div>
-                            <div class="lock-text">Processing</div>
-                            <button class="skip-btn">BYPASS LOCK <i class="fas fa-forward-step" style="margin-left:8px;"></i></button>
-                        </div>
-                        <div class="shockwave"></div>
-                    `;
-                }
-                return cardDiv;
-            }
-
-            function renderFeed() {
-                const container = document.getElementById('customFeedContainer');
-                container.innerHTML = '';
-                const items = buildFeedItems();
-                items.forEach(item => container.appendChild(generateCard(item)));
-                setupScrollLockLogic();
-            }
-
-            // ─────────────────────────────────────────────────────────
-            // ADVANCED SCROLL LOCK & SHOCKWAVE SYSTEM
-            // ─────────────────────────────────────────────────────────
-            let isLocked = false;
-            let feedContainer = document.getElementById('customFeedContainer');
-
-            function setupScrollLockLogic() {
-                const htmlCards = document.querySelectorAll('.html-block-card');
-                
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        // When the HTML block is mostly in view
-                        if (entry.isIntersecting && entry.intersectionRatio >= 0.8 && !entry.target.dataset.cleared) {
-                            activateLockSequence(entry.target);
-                        }
-                    });
-                }, { threshold: 0.8 });
-
-                htmlCards.forEach(card => observer.observe(card));
-            }
-
-            function activateLockSequence(card) {
-                if (isLocked) return;
-                isLocked = true;
-                feedContainer.style.overflowY = 'hidden'; // Freeze scroll
-                
-                const lockOverlay = card.querySelector('.interaction-lock');
-                const skipBtn = card.querySelector('.skip-btn');
-                const htmlContent = card.querySelector('.html-content');
-                const shockwave = card.querySelector('.shockwave');
-
-                // Dim content and show lock UI
-                htmlContent.style.transform = 'scale(0.95)';
-                htmlContent.style.filter = 'blur(4px)';
-                lockOverlay.classList.add('active');
-
-                // 5-Second Timer to show Skip Button
-                setTimeout(() => {
-                    skipBtn.classList.add('show');
-                }, 5000);
-
-                // Unlock Action
-                skipBtn.addEventListener('click', () => {
-                    // Cinematic Unlock Effects
-                    shockwave.classList.add('fire');
-                    lockOverlay.classList.remove('active');
-                    htmlContent.style.transform = 'scale(1)';
-                    htmlContent.style.filter = 'blur(0px)';
-                    
-                    // Allow scroll immediately
-                    feedContainer.style.overflowY = 'scroll';
-                    isLocked = false;
-                    card.dataset.cleared = "true"; // Prevent re-locking on scroll back
-
-                    // Clean up shockwave div after animation
-                    setTimeout(() => shockwave.remove(), 800);
-                }, { once: true });
-            }
-
-            // ─────────────────────────────────────────────────────────
-            // NAVIGATION
-            // ─────────────────────────────────────────────────────────
-            const bottomItems = document.querySelectorAll('.nav-item');
-            const headerTabs = document.querySelectorAll('.nav-tab');
-            const views = document.querySelectorAll('.view');
-
-            function switchView(viewName) {
-                views.forEach(v => v.classList.remove('active'));
-                document.getElementById(viewName + 'View').classList.add('active');
-
-                bottomItems.forEach(item => item.classList.toggle('active', item.dataset.view === viewName));
-                headerTabs.forEach(tab => tab.classList.toggle('active', (tab.dataset.tab === 'foryou' && viewName === 'feed') || tab.dataset.tab === viewName));
-            }
-
-            bottomItems.forEach(btn => btn.addEventListener('click', () => switchView(btn.dataset.view)));
-            headerTabs.forEach(tab => tab.addEventListener('click', () => switchView(tab.dataset.tab === 'foryou' ? 'feed' : 'explore')));
-
-            // Initialize App instantly without loading screen
-            renderFeed();
-
-        })();
+        initFeed();
     </script>
 </body>
 </html>
