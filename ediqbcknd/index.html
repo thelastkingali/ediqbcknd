@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
@@ -23,8 +23,6 @@
             --text-secondary: rgba(255, 255, 255, 0.7);
             --text-muted: rgba(255, 255, 255, 0.4);
             --gradient-dark: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, transparent 100%);
-            --shadow-glow: 0 0 20px rgba(254,44,85,0.3);
-            --radius-full: 9999px;
         }
 
         * {
@@ -55,64 +53,7 @@
             box-shadow: 0 8px 32px rgba(0,0,0,0.5);
         }
 
-        /* LOADING SCREEN */
-        .loading-screen {
-            position: fixed;
-            inset: 0;
-            background: var(--bg);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-            transition: opacity 0.5s ease, visibility 0.5s;
-        }
-        .loading-screen.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-        .loading-logo {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, #fe2c55 0%, #ff6b6b 100%);
-            border-radius: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: logoPulse 1.5s ease-in-out infinite;
-            box-shadow: 0 0 30px rgba(254,44,85,0.4);
-        }
-        @keyframes logoPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.08); }
-        }
-        .loading-logo svg { width: 56px; height: 56px; fill: white; }
-        .loading-text {
-            margin-top: 24px;
-            font-weight: 800;
-            font-size: 28px;
-            background: linear-gradient(135deg, #fe2c55, #ff6b6b);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .loading-bar {
-            width: 200px;
-            height: 4px;
-            background: var(--surface);
-            border-radius: 12px;
-            margin-top: 28px;
-            overflow: hidden;
-        }
-        .loading-progress {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #fe2c55, #ff6b6b);
-            border-radius: 12px;
-            transition: width 0.3s ease;
-        }
-
-        /* HEADER (glass tabs) */
+        /* HEADER */
         .nav-header {
             position: fixed;
             top: 0;
@@ -168,10 +109,7 @@
         /* VIEW CONTAINERS */
         .view {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
@@ -190,7 +128,7 @@
             z-index: 10;
         }
 
-        /* CUSTOM FEED (scroll-snap, fullscreen cards) */
+        /* CUSTOM FEED */
         .feed-container {
             flex: 1;
             overflow-y: scroll;
@@ -200,9 +138,8 @@
             -webkit-overflow-scrolling: touch;
             height: 100%;
         }
-        .feed-container::-webkit-scrollbar {
-            display: none;
-        }
+        .feed-container::-webkit-scrollbar { display: none; }
+        
         .feed-card {
             width: 100%;
             height: 100vh;
@@ -210,6 +147,7 @@
             position: relative;
             background: var(--card-bg);
             overflow: hidden;
+            display: flex;
         }
         .card-media {
             width: 100%;
@@ -217,14 +155,16 @@
             object-fit: cover;
             position: absolute;
             inset: 0;
+            background-color: #0d0e15; /* Fallback while loading */
         }
         .card-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, transparent 40%, transparent 100%);
+            background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, transparent 40%, transparent 100%);
             pointer-events: none;
         }
-        /* side actions (like, view) */
+
+        /* SIDE ACTIONS */
         .side-actions {
             position: absolute;
             right: 12px;
@@ -255,107 +195,131 @@
             justify-content: center;
             border: 1px solid rgba(255,255,255,0.15);
         }
-        .action-icon i { font-size: 24px; color: white; }
+        .action-icon i { font-size: 24px; color: white; transition: 0.3s; }
         .action-count { font-size: 13px; font-weight: 700; text-shadow: 0 2px 4px black; color: white; }
-        .card-info {
-            position: absolute;
-            bottom: 30px;
-            left: 16px;
-            right: 90px;
-            z-index: 30;
-            color: white;
-        }
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
-        .user-avatar {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            border: 2px solid white;
-            overflow: hidden;
-            background: var(--surface);
-        }
-        .user-avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .username { font-weight: 700; font-size: 16px; display: flex; align-items: center; gap: 6px; }
-        .verified-badge {
-            background: #25f4ee;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            color: black;
-        }
-        .caption { font-size: 15px; line-height: 1.4; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        .music-info { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-secondary); margin-top: 6px; }
 
-        /* HTML BLOCK CARD */
+        /* ADVANCED HTML BLOCK & LOCK UI */
         .html-block-card {
-            background: linear-gradient(145deg, #1a1c2a, #111217);
+            background: radial-gradient(circle at center, #1a1c2a 0%, #0a0b10 100%);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 24px;
             position: relative;
         }
         .html-content {
-            width: 100%;
+            width: 90%;
             max-height: 70%;
-            overflow-y: auto;
-            background: rgba(0,0,0,0.6);
+            background: rgba(20, 22, 35, 0.6);
             border-radius: 28px;
-            padding: 20px;
-            margin: 20px 0;
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255,255,255,0.1);
+            padding: 30px 20px;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            z-index: 2;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .timer-overlay {
+
+        /* The Interactive Lock Overlay */
+        .interaction-lock {
             position: absolute;
-            bottom: 80px;
-            left: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(20px);
-            border-radius: 60px;
-            padding: 12px 20px;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            z-index: 40;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        .interaction-lock.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .lock-ring {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px dashed var(--primary);
             display: flex;
             align-items: center;
-            gap: 12px;
-            z-index: 40;
-            border: 1px solid rgba(255,255,255,0.2);
+            justify-content: center;
+            animation: spinRing 10s linear infinite;
+            position: relative;
+            margin-bottom: 20px;
+            box-shadow: 0 0 30px rgba(254,44,85,0.4);
         }
-        .timer-bar {
-            flex: 1;
-            height: 6px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 6px;
-            overflow: hidden;
+        .lock-icon-inner {
+            position: absolute;
+            font-size: 28px;
+            color: white;
+            animation: counterSpin 10s linear infinite;
         }
-        .timer-progress {
-            height: 100%;
-            width: 100%;
-            background: var(--primary);
-            border-radius: 6px;
-            transition: width 0.1s linear;
-        }
-        .timer-text {
-            font-size: 14px;
-            font-weight: 600;
-            font-family: monospace;
-            letter-spacing: 1px;
-        }
-        .lock-icon {
-            color: var(--primary);
+        @keyframes spinRing { 100% { transform: rotate(360deg); } }
+        @keyframes counterSpin { 100% { transform: rotate(-360deg); } }
+
+        .lock-text {
             font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #fff, #aaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 30px;
         }
-        /* bottom nav */
+
+        /* Skip Button */
+        .skip-btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border: none;
+            padding: 14px 32px;
+            border-radius: 50px;
+            color: white;
+            font-weight: 800;
+            font-size: 15px;
+            letter-spacing: 1px;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+            box-shadow: 0 10px 20px rgba(254,44,85,0.4);
+        }
+        .skip-btn.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: all;
+        }
+        .skip-btn:active { transform: scale(0.95); }
+
+        /* Shockwave Effect */
+        .shockwave {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid var(--primary);
+            opacity: 1;
+            z-index: 50;
+            pointer-events: none;
+        }
+        .shockwave.fire {
+            animation: explode 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+        }
+        @keyframes explode {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; border-width: 10px; }
+            100% { transform: translate(-50%, -50%) scale(15); opacity: 0; border-width: 0px; }
+        }
+
+        /* BOTTOM NAV */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -386,40 +350,9 @@
         .nav-item span { font-size: 11px; font-weight: 500; color: var(--text-muted); }
         .nav-item.active i { color: var(--primary); transform: translateY(-2px); text-shadow: 0 0 8px rgba(254,44,85,0.5); }
         .nav-item.active span { color: white; font-weight: 600; }
-
-        .toast {
-            position: fixed;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%) translateY(20px);
-            background: rgba(22,24,35,0.95);
-            backdrop-filter: blur(20px);
-            color: white;
-            padding: 12px 22px;
-            border-radius: 40px;
-            font-size: 14px;
-            font-weight: 500;
-            z-index: 300;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.25s ease;
-            white-space: nowrap;
-        }
-        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-        @media (max-width: 420px) {
-            .nav-tabs { gap: 28px; padding: 6px 18px; }
-            .nav-item { padding: 8px 18px; }
-        }
     </style>
 </head>
 <body>
-    <div class="loading-screen" id="loadingScreen">
-        <div class="loading-logo"><svg viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg></div>
-        <div class="loading-text">VibeStream</div>
-        <div class="loading-bar"><div class="loading-progress" id="loadingProgress"></div></div>
-    </div>
-
     <div id="app">
         <nav class="nav-header">
             <div class="nav-tabs">
@@ -428,15 +361,13 @@
             </div>
         </nav>
 
-        <!-- FOR YOU VIEW - CUSTOM FEED (images + html blocks) -->
         <div id="feedView" class="view active">
             <div class="feed-container" id="customFeedContainer"></div>
         </div>
 
-        <!-- EXPLORE VIEW (webview: urlebird trending) keep as requested -->
         <div id="exploreView" class="view">
             <div class="webview-container" style="flex:1; width:100%; background:#000;">
-                <iframe class="webview-frame" id="exploreFrame" src="https://urlebird.com/trending/" style="width:100%; height:100%; border:none;" allow="accelerometer; autoplay; encrypted-media; fullscreen" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals"></iframe>
+                <iframe class="webview-frame" id="exploreFrame" src="https://urlebird.com/trending/" style="width:100%; height:100%; border:none;"></iframe>
             </div>
         </div>
 
@@ -446,335 +377,197 @@
         </nav>
     </div>
 
-    <div class="toast" id="toast"><i class="fas fa-globe" style="margin-right:8px;"></i><span id="toastMessage">Ready</span></div>
-
     <script>
         (function(){
             'use strict';
 
-            // ---------- ASSETS (IMAGES + HTML BLOCKS) ----------
-            // Images: stored as objects (local / github pages friendly) — placeholder Unsplash but user can replace
-            const rawImages = [
-                { url: "https://picsum.photos/id/1015/600/800", thumb: "https://picsum.photos/id/1015/300/400", caption: "Mountain landscape 🏔️", user: "alex_travels", handle: "@alex", avatar: "https://randomuser.me/api/portraits/men/32.jpg", likes: 12400 },
-                { url: "https://picsum.photos/id/104/600/800", thumb: "https://picsum.photos/id/104/300/400", caption: "Urban nights 🌃", user: "city_zen", handle: "@cityzen", avatar: "https://randomuser.me/api/portraits/women/44.jpg", likes: 8900 },
-                { url: "https://picsum.photos/id/106/600/800", thumb: "https://picsum.photos/id/106/300/400", caption: "Flower field magic 🌸", user: "nature_vibes", handle: "@nature", avatar: "https://randomuser.me/api/portraits/women/68.jpg", likes: 23300 },
-                { url: "https://picsum.photos/id/15/600/800", thumb: "https://picsum.photos/id/15/300/400", caption: "Quiet forest walk 🌲", user: "forest_spirit", handle: "@forest", avatar: "https://randomuser.me/api/portraits/men/75.jpg", likes: 6700 },
-                { url: "https://picsum.photos/id/20/600/800", thumb: "https://picsum.photos/id/20/300/400", caption: "Coffee & morning ☕", user: "coffee_diary", handle: "@coffee", avatar: "https://randomuser.me/api/portraits/women/12.jpg", likes: 4500 },
-                { url: "https://picsum.photos/id/26/600/800", thumb: "https://picsum.photos/id/26/300/400", caption: "Venice canals 🇮🇹", user: "wanderlust", handle: "@wander", avatar: "https://randomuser.me/api/portraits/men/91.jpg", likes: 18200 },
-                { url: "https://picsum.photos/id/29/600/800", thumb: "https://picsum.photos/id/29/300/400", caption: "Beach sunset 🌅", user: "sunny_beach", handle: "@sunny", avatar: "https://randomuser.me/api/portraits/women/33.jpg", likes: 32400 },
-                { url: "https://picsum.photos/id/42/600/800", thumb: "https://picsum.photos/id/42/300/400", caption: "Minimal architecture", user: "arch_lover", handle: "@arch", avatar: "https://randomuser.me/api/portraits/men/22.jpg", likes: 7600 },
-                { url: "https://picsum.photos/id/48/600/800", thumb: "https://picsum.photos/id/48/300/400", caption: "Old library 📚", user: "bookworm", handle: "@books", avatar: "https://randomuser.me/api/portraits/women/55.jpg", likes: 11100 },
-                { url: "https://picsum.photos/id/58/600/800", thumb: "https://picsum.photos/id/58/300/400", caption: "Windmills field", user: "green_energy", handle: "@wind", avatar: "https://randomuser.me/api/portraits/men/14.jpg", likes: 9300 },
-                { url: "https://picsum.photos/id/66/600/800", thumb: "https://picsum.photos/id/66/300/400", caption: "Misty mountains", user: "peak_hunter", handle: "@peak", avatar: "https://randomuser.me/api/portraits/women/79.jpg", likes: 15700 },
-                { url: "https://picsum.photos/id/77/600/800", thumb: "https://picsum.photos/id/77/300/400", caption: "Red panda cute 🐼", user: "wildlife", handle: "@wild", avatar: "https://randomuser.me/api/portraits/men/67.jpg", likes: 28900 }
+            // ─────────────────────────────────────────────────────────
+            // ASSET MANAGEMENT & ERROR HANDLING
+            // ─────────────────────────────────────────────────────────
+            // Instead of API, define your image names here. 
+            // Put these images in an 'assets' folder next to this HTML file.
+            const localAssetsFolder = './assets/';
+            const imageFiles = [
+                '1.jpg', '2.jpg', '3.png', 'my_custom_image.jpg', 'brand_logo.png' 
+                // Add exactly what you name your files here.
             ];
 
-            // CUSTOM HTML BLOCKS (fully interactive, each has duration & content)
+            // Complex HTML blocks with dynamic visuals
             const htmlBlocks = [
-                { id: "block1", duration: 8, html: `<div style="text-align:center; color:white;"><i class="fas fa-music" style="font-size:48px; color:#fe2c55;"></i><h2 style="margin:16px 0;">🎧 Audio Moment</h2><p>Listen to the vibe — enjoy this track preview</p><div style="margin:20px 0;"><i class="fas fa-headphones" style="font-size:32px;"></i><div style="height:4px; background:#fe2c55; width:80%; margin:12px auto; border-radius:4px;"></div></div><p style="font-size:12px;">✨ scroll locked until timer ends</p></div>` },
-                { id: "block2", duration: 10, html: `<div style="text-align:center;"><i class="fas fa-gamepad" style="font-size:48px; color:#25f4ee;"></i><h2 style="margin:16px 0;">Quick Tap Challenge</h2><p>Tap the button below for fun (timer still counts)</p><button id="tapBtn" style="background:#fe2c55; border:none; padding:12px 24px; border-radius:40px; color:white; font-weight:bold; margin-top:20px;">✨ TAP ME ✨</button><p id="tapCount" style="margin-top:12px;">Taps: 0</p><script>let t=0; document.getElementById('tapBtn')?.addEventListener('click',()=>{ t++; document.getElementById('tapCount').innerText='Taps: '+t; });<\/script></div>` },
-                { id: "block3", duration: 7, html: `<div style="text-align:center;"><i class="fas fa-quote-right" style="font-size:48px;"></i><h2>Daily Inspiration</h2><p style="font-style:italic; margin:20px;">"Creativity flows when you least expect it."</p><div style="background:rgba(255,255,255,0.1); padding:12px; border-radius:24px;">✨ Stay inspired ✨</div></div>` }
+                { id: "block1", html: `<div style="text-align:center; color:white;"><i class="fas fa-chart-network" style="font-size:48px; color:#fe2c55; margin-bottom:15px;"></i><h2 style="font-weight:900; letter-spacing:1px;">Analytics Overview</h2><p style="color:#aaa; font-size:14px; margin-top:10px;">Monitoring real-time engagement vectors.</p></div>` },
+                { id: "block2", html: `<div style="text-align:center;"><i class="fas fa-layer-group" style="font-size:48px; color:#25f4ee; margin-bottom:15px;"></i><h2 style="font-weight:900;">System Architecture</h2><p style="color:#aaa; font-size:14px; margin-top:10px;">Evaluating backend logic and render pipelines.</p></div>` }
             ];
 
-            // shuffle array function (randomize order)
+            // ─────────────────────────────────────────────────────────
+            // FEED GENERATION & RANDOMIZATION
+            // ─────────────────────────────────────────────────────────
             function shuffleArray(arr) {
-                for (let i = arr.length - 1; i > 0; i--) {
+                let shuffled = [...arr];
+                for (let i = shuffled.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
-                    [arr[i], arr[j]] = [arr[j], arr[i]];
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
                 }
-                return arr;
+                return shuffled;
             }
 
-            // build feed: images shuffled + inject html block after every 5 images (cycle through blocks)
-            let shuffledImages = [];
-            let feedItems = []; // { type: 'image', data: {...} } or { type: 'html', data: {...}, blockIndex }
-
-            function buildFeed() {
-                // randomize image order
-                shuffledImages = shuffleArray([...rawImages]);
-                feedItems = [];
+            function buildFeedItems() {
+                const randomizedImages = shuffleArray(imageFiles);
+                let feedItems = [];
                 let blockCounter = 0;
-                for (let i = 0; i < shuffledImages.length; i++) {
-                    feedItems.push({ type: 'image', data: shuffledImages[i] });
-                    // insert html block after every 5 images
-                    if ((i + 1) % 5 === 0 && (i + 1) < shuffledImages.length) {
+
+                for (let i = 0; i < randomizedImages.length; i++) {
+                    feedItems.push({ type: 'image', file: randomizedImages[i] });
+                    // Inject HTML block every 3 images for a dynamic rhythm
+                    if ((i + 1) % 3 === 0 && i !== randomizedImages.length - 1) {
                         const blockIdx = blockCounter % htmlBlocks.length;
-                        feedItems.push({ type: 'html', data: htmlBlocks[blockIdx], blockOriginalIdx: blockIdx });
+                        feedItems.push({ type: 'html', data: htmlBlocks[blockIdx] });
                         blockCounter++;
                     }
                 }
-                // optional: add one more html at the end if desired (but not required)
                 return feedItems;
             }
 
-            // render full feed into container
-            let currentActiveBlockCard = null;
-            let blockTimerInterval = null;
-            let isScrollLocked = false;
-            let activeBlockStartTime = 0;
-            let activeBlockDuration = 0;
-            let activeBlockElement = null;
-            let feedContainer = null;
+            function generateCard(item) {
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'feed-card';
 
-            function stopBlockTimer() {
-                if (blockTimerInterval) {
-                    clearInterval(blockTimerInterval);
-                    blockTimerInterval = null;
-                }
-                if (isScrollLocked && feedContainer) {
-                    feedContainer.style.overflowY = 'scroll';
-                    isScrollLocked = false;
-                    // re-enable touchmove
-                    document.body.style.overflow = '';
-                    if (window.unlockTouchMove) window.unlockTouchMove();
-                }
-                if (activeBlockElement) {
-                    const timerDiv = activeBlockElement.querySelector('.timer-overlay');
-                    if (timerDiv) timerDiv.style.opacity = '0';
-                }
-                activeBlockElement = null;
-            }
-
-            function lockScrollOnBlock(cardElement, durationSec) {
-                if (isScrollLocked) return;
-                isScrollLocked = true;
-                // disable scroll on feed container
-                feedContainer.style.overflowY = 'hidden';
-                // prevent touchmove on container to avoid any movement
-                const preventTouch = (e) => {
-                    if (isScrollLocked) e.preventDefault();
-                };
-                feedContainer.addEventListener('touchmove', preventTouch, { passive: false });
-                window.unlockTouchMove = () => feedContainer.removeEventListener('touchmove', preventTouch);
-                // also prevent window scroll
-                document.body.style.overflow = 'hidden';
-                
-                // start timer UI inside the block
-                const timerOverlay = cardElement.querySelector('.timer-overlay');
-                if (timerOverlay) {
-                    timerOverlay.style.opacity = '1';
-                    const progressBar = timerOverlay.querySelector('.timer-progress');
-                    const timerTextSpan = timerOverlay.querySelector('.timer-text');
-                    let remaining = durationSec;
-                    const start = Date.now();
-                    const updateTimer = () => {
-                        const elapsed = (Date.now() - start) / 1000;
-                        const left = Math.max(0, durationSec - elapsed);
-                        const percent = (elapsed / durationSec) * 100;
-                        if (progressBar) progressBar.style.width = Math.min(100, percent) + '%';
-                        if (timerTextSpan) timerTextSpan.innerText = `${Math.ceil(left)}s`;
-                        if (left <= 0) {
-                            stopBlockTimer();
-                            // remove lock and allow scroll
-                            if (feedContainer) feedContainer.style.overflowY = 'scroll';
-                            document.body.style.overflow = '';
-                            isScrollLocked = false;
-                            if (window.unlockTouchMove) window.unlockTouchMove();
-                            // reset overlay
-                            if (timerOverlay) timerOverlay.style.opacity = '0';
-                            showToast('Block complete! Scroll freely ✨', 1500);
-                            // ensure no further timers
-                            if (blockTimerInterval) clearInterval(blockTimerInterval);
-                            blockTimerInterval = null;
-                        }
-                    };
-                    updateTimer();
-                    if (blockTimerInterval) clearInterval(blockTimerInterval);
-                    blockTimerInterval = setInterval(updateTimer, 100);
-                }
-            }
-
-            function generateCard(item, idx) {
                 if (item.type === 'image') {
-                    const img = item.data;
-                    const likeCount = img.likes || Math.floor(Math.random() * 20000) + 2000;
-                    const cardDiv = document.createElement('div');
-                    cardDiv.className = 'feed-card';
-                    cardDiv.setAttribute('data-idx', idx);
+                    const imagePath = localAssetsFolder + item.file;
+                    const randomLikes = Math.floor(Math.random() * 50000) + 1000;
+                    
+                    // ONERROR TRICK: If the image is missing from the folder, the card deletes itself cleanly. No broken UI.
                     cardDiv.innerHTML = `
-                        <img class="card-media" src="${img.url}" alt="${img.caption}" loading="lazy">
+                        <img class="card-media" src="${imagePath}" alt="Feed Media" 
+                             onerror="this.closest('.feed-card').remove(); console.warn('Missing asset: ${item.file} bypassed.');">
                         <div class="card-overlay"></div>
                         <div class="side-actions">
-                            <div class="action-btn like-btn" data-likes="${likeCount}">
+                            <div class="action-btn like-btn">
                                 <div class="action-icon"><i class="fas fa-heart"></i></div>
-                                <span class="action-count">${formatNumber(likeCount)}</span>
+                                <span class="action-count">${(randomLikes/1000).toFixed(1)}K</span>
                             </div>
-                            <div class="action-btn">
-                                <div class="action-icon"><i class="fas fa-eye"></i></div>
-                                <span class="action-count">${formatNumber(Math.floor(Math.random() * 50000) + 10000)}</span>
-                            </div>
-                        </div>
-                        <div class="card-info">
-                            <div class="user-info">
-                                <div class="user-avatar"><img src="${img.avatar}" alt="avatar"></div>
-                                <div><div class="username">${img.user} <span class="verified-badge"><i class="fas fa-check"></i></span></div><div class="user-handle" style="font-size:13px;">${img.handle}</div></div>
-                            </div>
-                            <div class="caption">${img.caption}</div>
-                            <div class="music-info"><i class="fas fa-music"></i><span>Original audio · ${img.user}</span></div>
                         </div>
                     `;
-                    // like button interaction
+
+                    // Like interaction
                     const likeBtn = cardDiv.querySelector('.like-btn');
                     likeBtn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        const countSpan = likeBtn.querySelector('.action-count');
-                        let current = parseInt(countSpan.innerText.replace(/[^0-9]/g, ''), 10);
-                        if (likeBtn.classList.contains('liked')) {
-                            current = Math.max(0, current - 1);
-                            likeBtn.classList.remove('liked');
-                            likeBtn.querySelector('.action-icon').style.background = 'rgba(22,24,35,0.7)';
+                        const icon = likeBtn.querySelector('i');
+                        const iconContainer = likeBtn.querySelector('.action-icon');
+                        if (likeBtn.classList.toggle('liked')) {
+                            icon.style.color = '#fe2c55';
+                            iconContainer.style.borderColor = '#fe2c55';
+                            iconContainer.style.boxShadow = '0 0 15px rgba(254,44,85,0.4)';
                         } else {
-                            current += 1;
-                            likeBtn.classList.add('liked');
-                            likeBtn.querySelector('.action-icon').style.background = 'linear-gradient(135deg, #fe2c55, #ff6b6b)';
+                            icon.style.color = 'white';
+                            iconContainer.style.borderColor = 'rgba(255,255,255,0.15)';
+                            iconContainer.style.boxShadow = 'none';
                         }
-                        countSpan.innerText = formatNumber(current);
                     });
-                    return cardDiv;
-                } 
-                else { // HTML block
-                    const block = item.data;
-                    const duration = block.duration;
-                    const cardDiv = document.createElement('div');
-                    cardDiv.className = 'feed-card html-block-card';
-                    cardDiv.setAttribute('data-block-id', block.id);
+
+                } else {
+                    // HTML Block with Advanced Locking UI
+                    cardDiv.classList.add('html-block-card');
                     cardDiv.innerHTML = `
-                        <div class="html-content">${block.html}</div>
-                        <div class="timer-overlay" style="opacity:0;">
-                            <i class="fas fa-lock lock-icon"></i>
-                            <div class="timer-bar"><div class="timer-progress" style="width:100%"></div></div>
-                            <span class="timer-text">${duration}s</span>
+                        <div class="html-content">${item.data.html}</div>
+                        <div class="interaction-lock">
+                            <div class="lock-ring"><i class="fas fa-lock lock-icon-inner"></i></div>
+                            <div class="lock-text">Processing</div>
+                            <button class="skip-btn">BYPASS LOCK <i class="fas fa-forward-step" style="margin-left:8px;"></i></button>
                         </div>
+                        <div class="shockwave"></div>
                     `;
-                    // after render, we need to attach lock when this card becomes active (intersection)
-                    // we'll handle via intersection observer
-                    return cardDiv;
                 }
+                return cardDiv;
             }
 
-            function formatNumber(num) {
-                if (num >= 1e6) return (num/1e6).toFixed(1)+'M';
-                if (num >= 1e3) return (num/1e3).toFixed(1)+'K';
-                return num.toString();
-            }
-
-            function renderCustomFeed() {
+            function renderFeed() {
                 const container = document.getElementById('customFeedContainer');
-                if (!container) return;
-                const items = buildFeed();
                 container.innerHTML = '';
-                items.forEach((item, idx) => {
-                    const card = generateCard(item, idx);
-                    container.appendChild(card);
-                });
-                // after render, setup intersection observer for html blocks (auto lock)
-                setupBlockIntersection();
+                const items = buildFeedItems();
+                items.forEach(item => container.appendChild(generateCard(item)));
+                setupScrollLockLogic();
             }
 
-            let observer = null;
-            function setupBlockIntersection() {
-                if (observer) observer.disconnect();
+            // ─────────────────────────────────────────────────────────
+            // ADVANCED SCROLL LOCK & SHOCKWAVE SYSTEM
+            // ─────────────────────────────────────────────────────────
+            let isLocked = false;
+            let feedContainer = document.getElementById('customFeedContainer');
+
+            function setupScrollLockLogic() {
                 const htmlCards = document.querySelectorAll('.html-block-card');
-                observer = new IntersectionObserver((entries) => {
+                
+                const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
-                        if (entry.isIntersecting && entry.intersectionRatio >= 0.6) {
-                            const card = entry.target;
-                            const blockId = card.getAttribute('data-block-id');
-                            if (!blockId) return;
-                            // find block data
-                            let blockData = null;
-                            for (let bl of htmlBlocks) if (bl.id === blockId) blockData = bl;
-                            if (!blockData) return;
-                            // if already locked by another block, prevent
-                            if (isScrollLocked && activeBlockElement !== card) return;
-                            if (!isScrollLocked) {
-                                activeBlockElement = card;
-                                lockScrollOnBlock(card, blockData.duration);
-                            }
+                        // When the HTML block is mostly in view
+                        if (entry.isIntersecting && entry.intersectionRatio >= 0.8 && !entry.target.dataset.cleared) {
+                            activateLockSequence(entry.target);
                         }
                     });
-                }, { threshold: 0.6 });
+                }, { threshold: 0.8 });
+
                 htmlCards.forEach(card => observer.observe(card));
             }
 
-            // navigation & UI
-            let currentActiveView = 'feed';
-            const feedViewDiv = document.getElementById('feedView');
-            const exploreViewDiv = document.getElementById('exploreView');
+            function activateLockSequence(card) {
+                if (isLocked) return;
+                isLocked = true;
+                feedContainer.style.overflowY = 'hidden'; // Freeze scroll
+                
+                const lockOverlay = card.querySelector('.interaction-lock');
+                const skipBtn = card.querySelector('.skip-btn');
+                const htmlContent = card.querySelector('.html-content');
+                const shockwave = card.querySelector('.shockwave');
+
+                // Dim content and show lock UI
+                htmlContent.style.transform = 'scale(0.95)';
+                htmlContent.style.filter = 'blur(4px)';
+                lockOverlay.classList.add('active');
+
+                // 5-Second Timer to show Skip Button
+                setTimeout(() => {
+                    skipBtn.classList.add('show');
+                }, 5000);
+
+                // Unlock Action
+                skipBtn.addEventListener('click', () => {
+                    // Cinematic Unlock Effects
+                    shockwave.classList.add('fire');
+                    lockOverlay.classList.remove('active');
+                    htmlContent.style.transform = 'scale(1)';
+                    htmlContent.style.filter = 'blur(0px)';
+                    
+                    // Allow scroll immediately
+                    feedContainer.style.overflowY = 'scroll';
+                    isLocked = false;
+                    card.dataset.cleared = "true"; // Prevent re-locking on scroll back
+
+                    // Clean up shockwave div after animation
+                    setTimeout(() => shockwave.remove(), 800);
+                }, { once: true });
+            }
+
+            // ─────────────────────────────────────────────────────────
+            // NAVIGATION
+            // ─────────────────────────────────────────────────────────
             const bottomItems = document.querySelectorAll('.nav-item');
             const headerTabs = document.querySelectorAll('.nav-tab');
-            const toastEl = document.getElementById('toast');
-            const toastMsg = document.getElementById('toastMessage');
-
-            function showToast(msg, dur=1800) {
-                toastMsg.innerText = msg;
-                toastEl.classList.add('show');
-                setTimeout(() => toastEl.classList.remove('show'), dur);
-            }
+            const views = document.querySelectorAll('.view');
 
             function switchView(viewName) {
-                if (viewName === currentActiveView) return;
-                currentActiveView = viewName;
-                if (viewName === 'feed') {
-                    feedViewDiv.classList.add('active');
-                    exploreViewDiv.classList.remove('active');
-                    // re-render feed only if needed (keep existing, but ensure container is populated)
-                    if (!document.getElementById('customFeedContainer').children.length) renderCustomFeed();
-                    else setupBlockIntersection();
-                } else {
-                    exploreViewDiv.classList.add('active');
-                    feedViewDiv.classList.remove('active');
-                    if (observer) observer.disconnect();
-                    if (isScrollLocked) { stopBlockTimer(); if(feedContainer) feedContainer.style.overflowY = 'scroll'; isScrollLocked=false; }
-                }
-                bottomItems.forEach(item => {
-                    const v = item.dataset.view;
-                    if ((viewName === 'feed' && v === 'feed') || (viewName === 'explore' && v === 'explore')) item.classList.add('active');
-                    else item.classList.remove('active');
-                });
-                headerTabs.forEach(tab => {
-                    const t = tab.dataset.tab;
-                    if ((viewName === 'feed' && t === 'foryou') || (viewName === 'explore' && t === 'explore')) tab.classList.add('active');
-                    else tab.classList.remove('active');
-                });
-                showToast(viewName === 'feed' ? 'Dynamic feed • images + interactive blocks' : 'Explore trending', 1200);
+                views.forEach(v => v.classList.remove('active'));
+                document.getElementById(viewName + 'View').classList.add('active');
+
+                bottomItems.forEach(item => item.classList.toggle('active', item.dataset.view === viewName));
+                headerTabs.forEach(tab => tab.classList.toggle('active', (tab.dataset.tab === 'foryou' && viewName === 'feed') || tab.dataset.tab === viewName));
             }
 
-            // loading animation
-            let progress = 0;
-            const loadInterval = setInterval(() => {
-                progress += Math.random() * 20;
-                if (progress >= 100) {
-                    progress = 100;
-                    clearInterval(loadInterval);
-                    document.getElementById('loadingProgress').style.width = '100%';
-                    setTimeout(() => {
-                        document.getElementById('loadingScreen').classList.add('hidden');
-                        renderCustomFeed();
-                        feedContainer = document.getElementById('customFeedContainer');
-                        showToast('✨ feed ready • random images • HTML blocks after every 5', 2500);
-                    }, 200);
-                }
-                document.getElementById('loadingProgress').style.width = Math.min(progress,100) + '%';
-            }, 180);
-            setTimeout(() => {
-                if (document.getElementById('loadingScreen') && !document.getElementById('loadingScreen').classList.contains('hidden')) {
-                    document.getElementById('loadingScreen').classList.add('hidden');
-                    renderCustomFeed();
-                    feedContainer = document.getElementById('customFeedContainer');
-                }
-            }, 4000);
-
-            // event listeners
             bottomItems.forEach(btn => btn.addEventListener('click', () => switchView(btn.dataset.view)));
-            headerTabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    if (tab.dataset.tab === 'foryou') switchView('feed');
-                    else switchView('explore');
-                });
-            });
-            // clean up on explore to avoid memory
-            window.addEventListener('resize', () => { if(currentActiveView==='feed' && observer) setupBlockIntersection(); });
+            headerTabs.forEach(tab => tab.addEventListener('click', () => switchView(tab.dataset.tab === 'foryou' ? 'feed' : 'explore')));
+
+            // Initialize App instantly without loading screen
+            renderFeed();
+
         })();
     </script>
 </body>
